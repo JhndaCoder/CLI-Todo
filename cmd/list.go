@@ -9,6 +9,7 @@ import (
 
 	"github.com/JhndaCoder/CLI-Todo/todo"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var listCmd = &cobra.Command{
@@ -24,13 +25,10 @@ var (
 )
 
 func listRun(cmd *cobra.Command, args []string) {
-	items, err :=
-		todo.ReadItems(dataFile)
+	items, err := todo.ReadItems(viper.GetString("datafile"))
 	if err != nil {
 		log.Printf("%v", err)
 	}
-	fmt.Println(items)
-
 	sort.Sort(todo.ByPri(items))
 
 	w := tabwriter.NewWriter(os.Stdout, 3, 0, 1, ' ', 0)

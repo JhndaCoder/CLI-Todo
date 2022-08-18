@@ -41,8 +41,9 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVar(&dataFile, "datafile", home+string(os.PathSeparator)+".tridos.json", "data file to store todos")
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.todo.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.tri.yaml)")
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	viper.BindPFlag("datafile", rootCmd.PersistentFlags().Lookup("datafile"))
 }
 func initConfig() {
 	if cfgFile != "" {
@@ -54,7 +55,6 @@ func initConfig() {
 	viper.AutomaticEnv()
 	viper.SetEnvPrefix("todo")
 
-	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
 	}
